@@ -68,7 +68,7 @@ const htmlSerializer: HTMLSerializer = function (type, element, content, childre
       const linkRel = linkTarget.target ? { rel: 'noopener' } : {}
       const img = React.createElement(Image, { src: element.url, alt: element.alt || '' })
       return React.createElement(
-        'p',
+        'div',
         propsWithUniqueKey({ className: [element.label || '', 'block-img'].join(' ') }, key),
         linkUrl ? React.createElement('a', Object.assign({ href: linkUrl }, linkTarget, linkRel), img) : img,
       )
