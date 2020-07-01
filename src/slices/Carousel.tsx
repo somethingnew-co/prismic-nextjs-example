@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Section } from 'components/Section'
 import { Container } from '@stnew/layout'
-import { Slice } from 'types'
+import { PrismicSlice } from '@stnew/prismic-types'
+import { Section } from 'components/Section'
 
 function mod(n: number, m: number): number {
   return ((n % m) + m) % m
@@ -44,7 +44,7 @@ const PrevButton = styled(Control)`
   line-height: 2.5;
 `
 
-const Carousel: React.FC<Slice> = ({ items }) => {
+const Carousel: React.FC<PrismicSlice> = ({ items }) => {
   const [index, setIndex] = useState(0)
 
   function prev(): void {

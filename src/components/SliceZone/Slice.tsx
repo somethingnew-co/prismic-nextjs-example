@@ -1,13 +1,12 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { usePrismic } from '@stnew/prismic-nextjs'
 import { PrismicSlice } from '@stnew/prismic-types'
 
-interface SliceProps {
+interface Props {
   data: PrismicSlice
-  children?: ReactNode
 }
 
-export function Slice({ data, ...rest }: SliceProps): JSX.Element | null {
+export const Slice: React.FC<Props> = ({ data, ...rest }) => {
   const { slices } = usePrismic()
   const { slice_type } = data
   let Component = null

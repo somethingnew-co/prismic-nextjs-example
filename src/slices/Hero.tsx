@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import { Container, Row, Col } from '@stnew/layout'
 import { TextField } from 'components/TextField'
 import { Button } from 'components/Button'
-import { Slice } from 'types'
+import { PrismicSlice } from '@stnew/prismic-types'
 
 const HeroImage = styled.img`
  width: 100%;
 `
 
-const Hero: React.FC<Slice> = ({ primary }) => {
+const Hero: React.FC<PrismicSlice> = ({ primary }) => {
   const {
     text,
     image,

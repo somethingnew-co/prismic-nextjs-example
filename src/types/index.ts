@@ -1,21 +1,12 @@
+import { PrismicSlice } from '@stnew/prismic-types'
+
 export type PrismicDropdown = string
 
 export type PrismicKeyText = string
 
-export interface Slice {
-  slice_type: string
-  slice_label: string | null
-  primary: {
-    [key: string]: any
-  }
-  items: {
-    [key: string]: any
-  }[]
-}
-
 export interface PrismicDocument {
   [key: string]: any
-  body: Slice[]
+  body: PrismicSlice[]
 }
 
 export interface PrismicLink {

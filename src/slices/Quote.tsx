@@ -1,9 +1,9 @@
 import React from 'react'
-import { Container, Row, Col, Flex } from '@stnew/layout'
 import styled from 'styled-components'
 import { RichText } from 'prismic-reactjs'
+import { Container, Row, Col, Flex } from '@stnew/layout'
+import { PrismicSlice } from '@stnew/prismic-types'
 import { Section } from 'components/Section'
-import { Slice } from 'types'
 
 const QuoteImage = styled.img`
   width: 50px;
@@ -24,7 +24,7 @@ const QuoteText = styled.div`
   }
 `
 
-const Quote: React.FC<Slice> = ({ primary }) => {
+const Quote: React.FC<PrismicSlice> = ({ primary }) => {
   const {
     quote,
     byline,

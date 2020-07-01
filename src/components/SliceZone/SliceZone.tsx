@@ -2,9 +2,11 @@ import React from 'react'
 import { Slice } from './Slice'
 import { PrismicSlice } from '@stnew/prismic-types'
 
-function SliceZone({ slices, ...rest }: {
+interface Props {
   slices: PrismicSlice[]
-}): JSX.Element | null {
+}
+
+const SliceZone: React.FC<Props> = ({ slices, ...rest }) => {
   if (!slices) return null
 
   return (
