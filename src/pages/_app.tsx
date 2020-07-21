@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Head from 'next/head'
 import { AppProps } from 'next/app'
 import styled, { ThemeProvider } from 'styled-components'
@@ -35,6 +35,12 @@ type NextApp = AppProps & {
 export default function App({ Component, pageProps }: NextApp): JSX.Element {
 
   const Layout = Component.layout || 'main'
+
+  useEffect(() => {
+    if (window.dataLayer) {
+      window.dataLayer.push({ 'event': 'optimize.activate' })
+    }
+  }, [])
 
   return (
     <>

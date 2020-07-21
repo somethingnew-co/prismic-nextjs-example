@@ -6,4 +6,4 @@ const routes = {
 }
 
 export const linkResolver = urlResolver(routes)
-export const hrefResolver = urlResolver(routes)
+export const hrefResolver = urlResolver(routes, 'next')

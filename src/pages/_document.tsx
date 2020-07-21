@@ -43,6 +43,16 @@ export default class extends Document<DocumentProps> {
         <Head>
           {/* <link rel="stylesheet" href="/fonts/fonts.css" /> */}
           {this.props.styleTags}
+          <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173129830-1"></script>
+          <script dangerouslySetInnerHTML={{ __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-173129830-1', { 'optimize_id': 'OPT-WLTX6FX'});
+            `,
+          }}>
+          </script>
           <script async defer type="text/javascript" src="//static.cdn.prismic.io/prismic.js?repo=stnew&new=true"></script>
         </Head>
         <body data-build={buildDate}>
