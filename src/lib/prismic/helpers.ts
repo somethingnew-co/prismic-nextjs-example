@@ -1,12 +1,18 @@
 import { useTheme } from 'styled-components'
 import { PrismicDropdown } from 'types'
 
-type Result = { uid: string }
-type Path = { params: { [x: string]: string } }
+type Result = { uid: string, data: {[x:string] : any } }
+type Path = { params: { [x: string]: string[] } }
 type UIDPath = (result: Result) => Path
 
 export function byUID(param: string): UIDPath {
-  return result => ({ params: { [param]: result.uid } })
+  return (result) => {
+    const route = result.data.route !== null
+      ? [...result.data.route.split('/'), result.uid]
+      : [result.uid]
+
+    return ({ params: { [param]: route } })
+  }
 }
 
 export function mapPathsByParam(param: string, results: Result[]): Path[] {
@@ -14,13 +20,16 @@ export function mapPathsByParam(param: string, results: Result[]): Path[] {
 }
 
 export function filterPaths(paths: Path[], pages = []): Path[] {
-  // Always filter index page
-  const omittedPages = ['homepage', ...pages]
+  /**
+   * Don't include leading '/' in longer paths
+   * i.e. 'something/new'
+   */
+  const omittedRoutes = ['homepage', ...pages]
 
   return paths.filter((path) => {
     const { page } = path.params
 
-    if (omittedPages.includes(page)) {
+    if (omittedRoutes.includes(page.join('/'))) {
       return false
     }
 
