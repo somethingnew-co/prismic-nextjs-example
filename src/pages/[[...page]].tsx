@@ -6,18 +6,18 @@ import {
   filterPaths,
   mapPathsByParam,
 } from 'lib/prismic'
-import { SliceZone } from 'components/SliceZone'
+import { SliceZone } from '@stnew/prismic-nextjs'
 import { Layout } from 'components/Layout'
 import { PrismicDocument } from 'types'
 
 function Page({ page }: PrismicDocument): JSX.Element {
-  return <SliceZone slices={page.body} />
+  return <SliceZone data={page.body} />
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, preview = false, previewData }) => {
   const { page } = params
   const meta = await prismicClient.getSingle('meta', {})
-  const document = await prismicClient.getByUID('page', page as string, { ...previewData })
+  const document = await prismicClient.getByUID('page', page ? page[page.length - 1] : 'homepage', { ...previewData })
 
   return {
     props: {
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps = async ({ params, preview = false, 
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const { results } = await fetchByDocType('page')
-  const paths = filterPaths(mapPathsByParam('page', results))
+  const paths = [{ params: { page: [''] } }, ...filterPaths(mapPathsByParam('page', results))]
 
   return {
     paths,

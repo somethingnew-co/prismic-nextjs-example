@@ -1,12 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Container } from '@stnew/layout'
 import { PrismicSlice } from '@stnew/prismic-types'
 import { Section } from 'components/Section'
-
-function mod(n: number, m: number): number {
-  return ((n % m) + m) % m
-}
+import { useCarousel } from '@stnew/hooks'
 
 const Image = styled.img`
   display: block;
@@ -45,15 +42,10 @@ const PrevButton = styled(Control)`
 `
 
 const Carousel: React.FC<PrismicSlice> = ({ items }) => {
-  const [index, setIndex] = useState(0)
-
-  function prev(): void {
-    setIndex(mod(index - 1, items.length))
-  }
-
-  function next(): void {
-    setIndex(mod(index + 1, items.length))
-  }
+  const [index, { next, prev }] = useCarousel(items.length, {
+    auto: true,
+    interval: 500,
+  })
 
   return (
     <Section>

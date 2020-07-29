@@ -24,7 +24,7 @@ const Preview = styled.a`
   font-size: 14px;
 `
 
-type LayoutComponent = (props: any) => JSX.Element
+type LayoutComponent = React.ReactType<NextApp>
 
 type NextApp = AppProps & {
   Component: {

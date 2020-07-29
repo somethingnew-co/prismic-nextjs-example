@@ -1,7 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Text } from 'components/Text'
 import { RichText } from 'prismic-reactjs'
-import { Container, Row, Col, Flex } from '@stnew/layout'
+import { Box, Container, Row, Col, Flex } from '@stnew/layout'
 import { PrismicSlice } from '@stnew/prismic-types'
 import { Section } from 'components/Section'
 
@@ -42,7 +43,9 @@ const Quote: React.FC<PrismicSlice> = ({ primary }) => {
             </QuoteText>
             <Flex alignItems="center">
               <QuoteImage src={byline_image.url} />
-              <RichText as="div" ml={15}>{byline}</RichText>
+              <Box ml={15}>
+                <Text as="div">{byline}</Text>
+              </Box>
             </Flex>
           </Col>
         </Row>
