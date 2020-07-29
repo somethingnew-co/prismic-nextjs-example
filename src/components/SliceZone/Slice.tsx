@@ -3,31 +3,48 @@ import React, { useState, useEffect, useRef } from 'react'
 import { usePrismic } from '@stnew/prismic-nextjs'
 import { PrismicSlice } from '@stnew/prismic-types'
 
-interface Props {
-  data: PrismicSlice
-}
-
 interface SliceProps {
   data: PrismicSlice
 }
 
-export const Slice: React.FC<Props> = ({ data, ...rest }: SliceProps) => {
-  // Set the slice component as state because it might be ansynchronous
+export const Slice: React.FC<SliceProps> = ({ data, ...rest }: SliceProps) => {
+  const { slices } = usePrismic()
+  const { slice_type } = data
+
+  if (slices && slices.hasOwnProperty(slice_type)) {
+    let SliceComponent: React.ReactType | Promise<any> = slices[slice_type]
+
+    if (Promise.resolve(SliceComponent) === SliceComponent) {
+      return <DynamicSlice component={SliceComponent} {...data} {...rest} />
+    }
+
+    // TypeScript complains about call signatures
+    SliceComponent = SliceComponent as React.ReactType
+    return <SliceComponent {...data} {...rest} />
+  }
+
+  return null
+}
+
+interface DynamicSliceProps {
+  component: Promise<any>
+}
+
+/**
+ * Dynamically load components via import(), which returns a Promise
+ */
+const DynamicSlice: React.FC<DynamicSliceProps> = ({ component, ...props }: DynamicSliceProps) => {
+  // Set the slice component as state because it's ansynchronous
   const [Component, setComponent] = useState<JSX.Element | null>(null)
 
   const componentIsMounted = useRef<boolean>(true)
 
-  const { slices } = usePrismic()
-  const { slice_type } = data
-
-  /*
-   * This hook runs on mount or if slices update
-   */
+  // This hook runs on mount or if slices update
   useEffect(() => {
-    async function getSliceComponent(slice: React.ReactType | Promise<any>): Promise<void> {
+    async function getSliceComponent(component: Promise<any>): Promise<void> {
       try {
       // If slice component is an import, await for Promise resolution
-        const module = await slice
+        const module = await component
 
         let SliceComponent: React.ReactType
 
@@ -43,7 +60,7 @@ export const Slice: React.FC<Props> = ({ data, ...rest }: SliceProps) => {
         }
 
         if (componentIsMounted.current) {
-          setComponent(() => <SliceComponent { ...data} {...rest } />)
+          setComponent(() => <SliceComponent { ...props} />)
         }
 
       } catch (error) {
@@ -52,10 +69,7 @@ export const Slice: React.FC<Props> = ({ data, ...rest }: SliceProps) => {
       }
     }
 
-    // Check to see if slice exists in the slice dictionary
-    if (slices && slices.hasOwnProperty(slice_type)) {
-      getSliceComponent(slices[slice_type])
-    }
+    getSliceComponent(component)
 
     return () => {
       componentIsMounted.current = false

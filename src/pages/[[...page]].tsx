@@ -11,7 +11,7 @@ import { Layout } from 'components/Layout'
 import { PrismicDocument } from 'types'
 
 function Page({ page }: PrismicDocument): JSX.Element {
-  return <SliceZone slices={page.body} />
+  return <SliceZone data={page.body} />
 }
 
 export const getStaticProps: GetStaticProps = async ({ params, preview = false, previewData }) => {
