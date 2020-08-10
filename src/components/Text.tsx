@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import { RichText as PrismicRichText } from 'prismic-reactjs'
+import { RichText as PrismicRichText, RichTextBlock } from 'prismic-reactjs'
 import { usePrismic } from '@stnew/prismic-nextjs'
 import {
   color,
@@ -49,7 +49,19 @@ interface TextProps {
   as?: React.ElementType
 }
 
-export const Text: React.FC<TextProps> = ({ children, ...rest }) => {
+interface Text {
+  (props: TextProps & {
+    children: React.ReactNode | RichTextBlock[]
+  }): React.ReactElement
+}
+
+interface RichText {
+  (props: TextProps & {
+    children: RichTextBlock[]
+  }): React.ReactElement
+}
+
+export const Text: Text = ({ children, ...rest }) => {
   if (!children) return null
   let renderText = children
 
@@ -65,12 +77,12 @@ export const Text: React.FC<TextProps> = ({ children, ...rest }) => {
   )
 }
 
-export const RichText: React.FC<TextProps> = ({ children, as, ...rest }) => {
+export const RichText: RichText = ({ children, as, ...rest }) => {
   const { linkResolver } = usePrismic()
 
   return (
     <Text {...rest} as={as || 'div'}>
-      <PrismicRichText render={children} linkResolver={linkResolver} />
+      <PrismicRichText render={children as RichTextBlock[]} linkResolver={linkResolver as () => string} />
     </Text>
   )
 }

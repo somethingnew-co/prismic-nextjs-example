@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prismicClient } from 'lib/prismic'
-import { linkResolver } from 'lib/prismic/resolvers'
+import { prismicClient, linkResolver } from 'lib/prismic'
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
   const { token: ref, documentId } = req.query

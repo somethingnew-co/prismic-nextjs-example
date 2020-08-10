@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
 import { space, layout, variant, compose, border, color, typography } from 'styled-system'
-import { Link } from '@stnew/prismic-nextjs'
+import { PrismicLink } from '@stnew/prismic-nextjs'
 import { PrismicDoc } from '@stnew/prismic-types'
 
 const buttonVariants = variant({
@@ -42,15 +42,14 @@ const StyledButton = styled.button(
 
 interface Props {
   children: React.ReactNode
-  href?: PrismicDoc | string
-  uid?: string
+  link?: PrismicDoc
   onClick?: () => void
   variant?: string
 }
 
-export const Button: React.FC<Props> = function ({ children, href, uid, onClick, ...rest }) {
-  return href ? (
-    <StyledButton as={Link} href={href} uid={uid} {...rest}>
+export const Button: React.FC<Props> = function ({ children, link, onClick, ...rest }) {
+  return link ? (
+    <StyledButton as={PrismicLink} link={link} {...rest}>
       {children}
     </StyledButton>
   ) : (

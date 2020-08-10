@@ -1,4 +1,3 @@
-import { useTheme } from 'styled-components'
 import { PrismicDropdown } from 'types'
 
 type Result = { uid: string, data: {[x:string] : any } }
@@ -35,49 +34,6 @@ export function filterPaths(paths: Path[], pages = []): Path[] {
 
     return path
   })
-}
-
-export function useThemeSwitch(theme: string): {
-  background: string
-  foreground: string
-} {
-  const { colors } = useTheme()
-
-  const {
-    white,
-    whitesmoke,
-    black,
-    primary,
-  } = colors
-
-  switch (theme) {
-    case 'White':
-      return {
-        background: white,
-        foreground: black,
-      }
-    case 'Grey':
-      return {
-        background: whitesmoke,
-        foreground: black,
-      }
-    case 'Invert':
-      return {
-        background: black,
-        foreground: white,
-      }
-    case 'Primary':
-      return {
-        background: primary,
-        foreground: white,
-      }
-
-    default:
-      return {
-        background: white,
-        foreground: black,
-      }
-  }
 }
 
 export function valignSwitch(align: PrismicDropdown): string {

@@ -7,9 +7,9 @@ import { PrismicProvider } from '@stnew/prismic-nextjs'
 import { hrefResolver, linkResolver } from 'lib/prismic'
 import { Theme } from 'styles/theme'
 import 'styles/global.css'
+import { elementMap } from 'lib/prismic/serializer'
 
-const rootResolver = 'page'
-const theme = new Theme('#ff5678')
+const theme = new Theme()
 
 const Preview = styled.a`
   position: fixed;
@@ -43,10 +43,10 @@ export default function App({ Component, pageProps }: NextApp): JSX.Element {
       </Head>
       <ThemeProvider theme={theme}>
         <PrismicProvider
-          slices={sliceMap as unknown as { [key: string]: (props: any) => JSX.Element }}
+          slices={sliceMap}
           linkResolver={linkResolver}
           hrefResolver={hrefResolver}
-          rootResolver={rootResolver}
+          htmlSerializer={elementMap}
         >
           <Layout {...pageProps}>
             {pageProps.preview && (

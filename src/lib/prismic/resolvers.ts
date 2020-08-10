@@ -1,9 +1,28 @@
 import { urlResolver } from '@stnew/prismic-nextjs'
 
 const routes = {
-  'index': 'homepage',
-  'page': '/**',
+  'page': {
+    href: '/',
+    page: '/[[...page]]',
+    root: 'homepage',
+  },
+  'about': {
+    href: '/about',
+    page: '/about',
+  },
+  'smoketest': {
+    href: '/smoketest',
+    page: '/smoketest',
+  },
+  'blog_home': {
+    href: '/blog',
+    page: '/blog',
+  },
+  'blog_post': {
+    href: '/blog',
+    page: '/blog/[post]',
+  },
 }
 
-export const linkResolver = urlResolver(routes)
-export const hrefResolver = urlResolver(routes)
+
+export const { linkResolver, hrefResolver } = urlResolver(routes)

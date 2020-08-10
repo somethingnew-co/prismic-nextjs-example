@@ -1,8 +1,10 @@
 import React from 'react'
 import { Container, Flex } from '@stnew/layout'
+import { PrismicLink } from '@stnew/prismic-nextjs'
+import { PrismicDoc } from '@stnew/prismic-types'
 import styled from 'styled-components'
-import { Link } from './Link'
-import { PrismicLink, PrismicKeyText } from 'types'
+import { PrismicKeyText } from 'types'
+import NextLink from 'next/link'
 
 const HeaderLogo = styled.a`
   margin: 0;
@@ -12,7 +14,7 @@ const HeaderLogo = styled.a`
   text-decoration: none;
 `
 
-const NavLink = styled(Link)`
+const NavLink = styled(PrismicLink)`
   display: inline-block;
   padding: 15px;
   color: inherit;
@@ -26,7 +28,7 @@ const NavLink = styled(Link)`
 interface Props {
   site_title: string
   nav: {
-    link: PrismicLink
+    link: PrismicDoc
     label: PrismicKeyText
   }[]
 }
@@ -35,10 +37,14 @@ export const Header: React.FC<Props> = ({ site_title, nav }) => (
   <header>
     <Container my={30}>
       <Flex justifyContent="space-between" alignItems="center">
-        <Link href="/" as={HeaderLogo}>{site_title}</Link>
+        <NextLink as="/" href="/[[...page]]" passHref>
+          <HeaderLogo>
+            {site_title}
+          </HeaderLogo>
+        </NextLink>
         <div>
           {nav.map(item => (
-            <NavLink key={item.label} href={item.link}>{item.label}</NavLink>
+            <NavLink key={item.label} link={item.link}>{item.label}</NavLink>
           ))}
         </div>
       </Flex>
