@@ -22,6 +22,10 @@ const routes = {
     href: '/blog',
     page: '/blog/[post]',
   },
+  'graphql': {
+    href: '/graphql',
+    page: '/graphql/[{...post]]',
+  },
 }
 
 

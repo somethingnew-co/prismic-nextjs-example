@@ -1,11 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { prismicClient, linkResolver } from 'lib/prismic'
+import { defaultClient, linkResolver } from 'lib/prismic'
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<any> => {
   const { token: ref, documentId } = req.query
 
   // Check the token parameter against the Prismic SDK
-  const url = await prismicClient.getPreviewResolver(ref as string, documentId as string).resolve(linkResolver, '/')
+  const url = await defaultClient.client.getPreviewResolver(ref as string, documentId as string).resolve(linkResolver, '/')
 
   if (!url) {
     return res.status(401).json({ message: 'Invalid token' })

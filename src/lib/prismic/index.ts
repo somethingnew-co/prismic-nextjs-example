@@ -1,12 +1,7 @@
 export {
-  prismicClient,
-  fetchByDocType,
+  defaultClient,
+  apolloClient,
 } from './client'
-
-export {
-  mapPathsByParam,
-  filterPaths,
-} from './helpers'
 
 export {
   linkResolver,

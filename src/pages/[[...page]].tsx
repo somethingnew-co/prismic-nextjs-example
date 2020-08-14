@@ -1,11 +1,5 @@
-import { GetStaticProps, GetStaticPaths } from 'next'
 import React from 'react'
-import {
-  prismicClient,
-  fetchByDocType,
-  filterPaths,
-  mapPathsByParam,
-} from 'lib/prismic'
+import { defaultClient } from 'lib/prismic'
 import { SliceZone } from '@stnew/prismic-nextjs'
 import { Layout } from 'components/Layout'
 import { PrismicDocument } from 'types'
@@ -14,29 +8,17 @@ function Page({ page }: PrismicDocument): JSX.Element {
   return <SliceZone data={page.body} />
 }
 
-export const getStaticProps: GetStaticProps = async ({ params, preview = false, previewData }) => {
-  const { page } = params
-  const meta = await prismicClient.getSingle('meta', {})
-  const document = await prismicClient.getByUID('page', page ? page[page.length - 1] : 'homepage', { ...previewData })
-
-  return {
+const { staticProps, staticPaths } = defaultClient
+  .getSingle('shared_meta', {}, 'meta')
+  .getRepeatable({ type: 'page', param: 'page', rootUid: 'homepage' })
+  .getStaticProps(async () => ({
     props: {
-      page: document.data,
-      meta: meta.data,
-      preview,
+      test: 'TEST',
     },
-  }
-}
+  }))
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { results } = await fetchByDocType('page')
-  const paths = [{ params: { page: [''] } }, ...filterPaths(mapPathsByParam('page', results))]
-
-  return {
-    paths,
-    fallback: false,
-  }
-}
+export const getStaticProps = staticProps
+export const getStaticPaths = staticPaths
 
 Page.layout = Layout
 
